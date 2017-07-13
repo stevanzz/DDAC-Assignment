@@ -1,0 +1,44 @@
+﻿@model Events.Models.HomeViewModel
+@{
+    ViewBag.Title = "Manage Shipments";
+}
+
+<h1 class="upcoming-events">Manage Shipments</h1>
+<hr/>
+@Html.Partial("_UserDetailsView")
+
+@if (Model.UpcomingEvents != null && Model.UpcomingEvents.Any())
+{
+    <table class="shadow">
+        <tr>
+            <th>Shipment Title</th>
+            <th>Departure Location</th>
+            <th>Arrival Location</th>
+            <th>Start Date</th>
+            <th>Duration</th>
+        </tr>
+        @foreach (var eventItem in Model.UpcomingEvents)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Register", "Events", new { id=@eventItem.Id })">@eventItem.Title</a>
+                </td>
+                <td>
+                    <span>@eventItem.DepartureLocation</span>
+                </td>
+                <td>
+                    <span>@eventItem.ArrivalLocation</span>
+                </td>
+                <td>
+                    <span>@eventItem.StartDate.Value.ToString("MMM dd, yyyy")</span>
+                </td>
+                <td>
+                    <span>@eventItem.Duration</span>
+                </td>
+            </tr>
+        }
+    </table>
+
+}
+
+<hr />

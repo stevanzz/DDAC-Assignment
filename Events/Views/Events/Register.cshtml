@@ -1,0 +1,80 @@
+﻿@model Events.Models.EventViewModel
+@{
+    ViewBag.Title = "Manage Shipment";
+}
+
+<div class="breadcrumbs">
+    <a href="@Url.Action("Index","Home")">Manage Shipment</a>
+    <span>/</span>
+    Shipment Details
+</div>
+@Html.Partial("_UserDetailsView")
+@using (Html.BeginForm("Register", "Events", FormMethod.Post, new { id = "myForm" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend style="padding-bottom:10px;">Shipment Details</legend>
+        <strong>Title: </strong>
+        <input type="hidden" name="Act" id="Act"/>
+        <input type="hidden" name="Id" id="Id" value="@Model.Id" />
+        <input type="hidden" name="Title" id="Title" value="@Model.Title" />
+        <span id="Owner">@Model.Title</span>
+        <dl>
+            <dd>
+                <p><strong>Description: </strong></p>
+                @Html.TextAreaFor(x => x.Description, new { Style="width: 505px;height: 100px;"})
+                @Html.ValidationMessageFor(x => x.Description)
+            </dd>
+            <dd>
+                <p><strong>Departure Location: </strong></p>
+                @Html.TextBoxFor(x => x.DepartureLocation)
+                @Html.ValidationMessageFor(x => x.DepartureLocation)
+                <p><strong>Arrival Location: </strong></p>
+                @Html.TextBoxFor(x => x.ArrivalLocation)
+                @Html.ValidationMessageFor(x => x.ArrivalLocation)
+            </dd>
+            <dt>
+                <label class="audience">Container Type:</label>
+                <label class="datepicker">Start Date:</label>
+                <label class="duration">Days:</label>
+            </dt>
+            <dd>
+                <select id="ContainerType" name="ContainerType">
+                    <option value="0">20' Dry Standard</option>
+                    <option value="1">40' Dry Standard</option>
+                    <option value="2">40' Dry High</option>
+                    <option value="3">45' Dry High</option>
+                </select>
+                @Html.TextBoxFor(x => x.StartDate, new { @class = "datepicker", value = "" })
+                @if (ViewBag.DateRangeError != null && ViewBag.DateRangeError)
+                {
+                    <span style="float:left">   @Html.ValidationMessageFor(x => x.StartDate)</span>
+                }
+                else
+                {
+                    @Html.ValidationMessageFor(x => x.StartDate)
+                }
+                @Html.TextBoxFor(x => x.Days, new { @class = "duration" })
+                @Html.ValidationMessageFor(x => x.Days)
+                <div id="error-message-box"></div>
+            </dd>
+        </dl>
+        <input id="updateButton" name="updateButton" value="Update" class="button button-blue" style="padding:10px 0;" />
+        <input id="deleteButton" name="deleteButton" value="Delete" class="button button-blue" style="padding:10px 0;" />
+    </fieldset>
+}
+@Html.Partial("_UserSelectDialog")
+<script type="text/javascript">
+    $(document).ready(function () {
+        eventsManager.initializeEventRegister();
+        $("#updateButton").click(function () {
+            $("#Act").val("Update");
+            $("#myForm").submit();
+        });
+
+        $("#deleteButton").click(function () {
+            $("#Act").val("Delete");
+            $("#myForm").submit();
+        });
+    });
+</script>

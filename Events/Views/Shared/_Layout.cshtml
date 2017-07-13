@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+@using Events.Web.Helpers;
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Event Registration</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")`
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/Application/eventsManager.js"></script>
+    <link href="~/Content/themes/base/jquery.ui.all.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery.ui.theme.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <section class="main">
+        <header>
+            <section id="support-links">
+                <p>
+                    <a href="@Url.Action("About","Home")">About</a> | <a href="@Url.Action("Support","Home")">Support</a> | <a href="@Url.Action("Contact","Home")">Contact</a> | 
+                    @if (Request.IsAuthenticated) {
+                        @Html.ActionLink("Sign out", "SignOut", "Account")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Sign in", "SignIn", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    }
+                </p>
+            </section>
+            <a class="logo">Maersk Line</a>
+        </header>
+        <nav>
+            <ul id="menu">
+                <li><a href="@Url.Action("Index","Home")" class='home @(ViewBag.CurrentView == MenuEnabledView.Default ? "selected" : "")'>Manage Shipment</a></li>
+                <!--<li><a href="@Url.Action("MyEvents","Events")" class='myevents @(ViewBag.CurrentView == MenuEnabledView.MyEvents ? "selected" : "")'>Manage Shipments</a></li>-->
+                <li><a href="@Url.Action("AddEvent","Events")" class='addevent @(ViewBag.CurrentView == MenuEnabledView.AddEvent ? "selected" : "")'>Add Shipment</a></li>
+            </ul>
+        </nav>
+    </section>
+    <div id="body">
+        <section class="content-wrapper">
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="title">
+                <p>&copy;@DateTime.Now.Year - Maersk Line</p>
+            </div>
+            <div class="links">
+                <ul>
+                    <li><a href="@Url.Action("Index", "Home")">Manage Shipments</a></li>
+                    <li>|</li>
+                    <!--<li><a href="@Url.Action("MyEvents","Events")">Manage Shipments</a></li>
+                    <li>|</li>-->
+                    <li><a href="@Url.Action("AddEvent","Events")">Add Shipment</a></li>
+                    <li>|</li>
+                    <li><a href="@Url.Action("About","Home")">About</a></li>
+                    <li>|</li>
+                    <li><a href="@Url.Action("Support","Home")">Support</a></li>
+                    <li>|</li>
+                    <li><a href="@Url.Action("Contact","Home")">Contact</a></li>
+
+
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
